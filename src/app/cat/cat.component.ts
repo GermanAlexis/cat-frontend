@@ -28,7 +28,7 @@ import { IBreed } from './interfaces/cat.interface';
   styleUrl: './cat.component.css',
 })
 export class CatComponent implements OnInit {
-  private t = inject(BreedsService);
+  private breedsService = inject(BreedsService);
 
   breeds: IBreed[] = [];
 
@@ -70,14 +70,14 @@ export class CatComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.t.search(filterValue).subscribe({
+    this.breedsService.search(filterValue).subscribe({
       next: (data) => (this.dataSource.data = data),
       error: (error) => console.log(error),
     });
   }
 
   async getBreed() {
-    this.t.getBreeds().subscribe(
+    this.breedsService.getBreeds().subscribe(
       (data: IBreed[]) => {
         this.dataSource.data = data; // Update data source directly
       },

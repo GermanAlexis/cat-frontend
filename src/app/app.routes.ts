@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { userinfoGuard } from './common/guard/userinfo.guard';
 
 export const routes: Routes = [
   {
@@ -12,7 +13,7 @@ export const routes: Routes = [
   },
   {
     path: 'cat',
-    canActivate: [], //TODO ? Guard
+    canActivate: [userinfoGuard],
     loadChildren: () => import('./cat/cat.routes').then((m) => m.catRoutes),
   },
 ];

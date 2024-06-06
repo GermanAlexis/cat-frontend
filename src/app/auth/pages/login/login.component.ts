@@ -11,7 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -36,24 +36,22 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
 
   async onSubmit() {
     if (this.loginForm.valid) {
-      const email = this.loginForm.value.email;
-      console.log('email: ', email);
-      const password = this.loginForm.value.password;
-      console.log('password: ', password);
-      (await this.authService.login({ email, password })).subscribe({
-        next: (data) => {
-          console.log('Datos recibidos:', data);
-          alert('Sos el mejor');
+      (await this.authService.login(this.loginForm.value)).subscribe({
+        next: ({ token }) => {
+          console.log('data: ', token);
+          localStorage.setItem('token', token);
+          this.router.navigate(['../../cat']);
         },
         error: (error) => {
-          console.error('Error al recibir datos:', error);
+          alert(error.error.message);
         },
         complete: () => {
           console.log('Observable completado');
