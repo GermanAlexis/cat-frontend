@@ -10,8 +10,7 @@ import {
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterModule, RouterLink, RouterLinkActive],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  template: `<router-outlet />`,
 })
 export class AppComponent {
   title = 'cat-frontend';
